@@ -3,6 +3,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed = 10f;
+    public int health;
+    public int armor;
+    public int magic_resistance;
 
     private Transform target;
     private int waypointIndex = 0;
@@ -32,5 +35,19 @@ public class Enemy : MonoBehaviour
         }
         waypointIndex++;
         target = Waypoints.points[waypointIndex];
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if(health > 0)
+        {
+            health -= damage;
+        }
+        else
+        {
+            Destroy(gameObject);
+            PlayerStats.Money += 50;
+        }
+
     }
 }
