@@ -114,3 +114,4 @@ MonoBehaviour:
   health: 50
   armor: 10
   magic_resistance: 5
+  killValue: 50

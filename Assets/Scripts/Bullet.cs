@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
 
     private Transform target;
+    private Turret parent;
     public float speed = 50f;
     public GameObject impactEffect;
     public float explosionRadius = 0f;
@@ -13,7 +14,6 @@ public class Bullet : MonoBehaviour
 
     public void Seek(Transform _target)
     {
-
         target = _target;
     }
 
@@ -58,14 +58,17 @@ public class Bullet : MonoBehaviour
         return;
     }
 
-    void Explode()
+    private void Explode()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position,explosionRadius);
         foreach (Collider collider in colliders)
         {
-            if(collider.CompareTag("Enemy"))
+            if(collider.CompareTag("Enemy")) 
             {
+                Enemy target = collider.gameObject.GetComponent<Enemy>();
                 Damage(collider.transform);
+                target.AddDebuff(new ColdDebuff(target));
+                //target.SetSpeed(5);
             }
         }
     }

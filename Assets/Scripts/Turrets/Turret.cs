@@ -2,15 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Turret : MonoBehaviour
+public abstract class Turret : MonoBehaviour
 {
 
-    private Transform target;
+    public Transform target;
 
     [Header("Attributes")]
     public float range = 15f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
+    public int damageDone = 0;
 
     [Header("UnitySetupFields")]
     public string enemyTag = "Enemy";
@@ -20,7 +21,7 @@ public class Turret : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform firePoint;
 
-
+    public abstract Debuff GetDebuff();
 
     // Start is called before the first frame update
     void Start()
@@ -92,5 +93,10 @@ public class Turret : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    public void TotalDamageDone(int damage)
+    {
+        damageDone += damage;
     }
 }

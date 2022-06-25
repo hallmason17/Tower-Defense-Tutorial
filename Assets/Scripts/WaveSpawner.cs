@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class WaveSpawner : MonoBehaviour
 {
@@ -10,7 +11,9 @@ public class WaveSpawner : MonoBehaviour
     public float timeBetweenWaves = 5.5f;
     private float countdown = 2f;
     private int waveNumber = 1;
-    public Text WaveCountDownText;
+    public static int enemiesAlive = 0;
+    public TextMeshProUGUI WaveCountDownText;
+    public TextMeshProUGUI Money;
 
     void Update()
     {
@@ -21,7 +24,9 @@ public class WaveSpawner : MonoBehaviour
         }
 
         countdown -= Time.deltaTime;
-        WaveCountDownText.text = Mathf.Round(countdown).ToString();
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
+        WaveCountDownText.text = string.Format("{0:00.00}",countdown);
+        Money.text = "$" + PlayerStats.Money.ToString();
     }
 
     IEnumerator SpawnWave()
@@ -39,5 +44,6 @@ public class WaveSpawner : MonoBehaviour
     void SpawnEnemy()
     {
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        enemiesAlive++;
     }
 }
